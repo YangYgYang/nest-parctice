@@ -1,5 +1,6 @@
 import { Controller, Get ,Delete,Post,Put,Param,HttpCode, HttpStatus,Body } from '@nestjs/common';
 import { AppService } from './app.service';
+import { CreateUserDto } from './dto/create-user.dto';
 
 @Controller()
 export class AppController {
@@ -22,12 +23,11 @@ export class AppController {
 
   @Post(':id')
   creatList(
-    @Body('name')name:string,
-    @Body('description')description:string,
+    @Body() dto:CreateUserDto,
     @Param('id')id:string
     ){
-    console.log(HttpStatus)
-    return {id,name,description};
+    // console.log(HttpStatus)
+    return {id,dto};
   }
 
   @Put()
