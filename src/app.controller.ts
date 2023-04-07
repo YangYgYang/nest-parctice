@@ -1,4 +1,4 @@
-import { Controller, Get ,Delete,Post,Put,Param } from '@nestjs/common';
+import { Controller, Get ,Delete,Post,Put,Param,HttpCode, HttpStatus } from '@nestjs/common';
 import { AppService } from './app.service';
 
 @Controller()
@@ -26,7 +26,9 @@ export class AppController {
   }
 
   @Put()
+  @HttpCode(HttpStatus.NO_CONTENT)
   updateList():string{
+    console.log(HttpStatus.NO_CONTENT)
     return this.appService.updateList();
   }
 }
