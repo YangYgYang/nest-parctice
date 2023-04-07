@@ -1,10 +1,10 @@
 import { Controller, Get ,Delete,Post,Put,Param,HttpCode, HttpStatus,Body } from '@nestjs/common';
-import { AppService } from './app.service';
+import { UserService } from './user.service';
 import { CreateUserDto } from './dto/create-user.dto';
 
 @Controller()
-export class AppController {
-  constructor(private readonly appService: AppService) {}
+export class UserController {
+  constructor(private readonly userService: UserService) {}
 
   @Get(':userId')
   getUserDataById(@Param('userId')id:string): string {
@@ -13,12 +13,12 @@ export class AppController {
   }
   @Get()
   getHello(): string {
-    return this.appService.getHello();
+    return this.userService.getHello();
   }
 
   @Delete()
   list():string{
-    return this.appService.deleteList();
+    return this.userService.deleteList();
   }
 
   @Post(':id')
@@ -33,6 +33,6 @@ export class AppController {
   @Put()
   // @HttpCode(HttpStatus.NO_CONTENT)
   updateList():string{
-    return this.appService.updateList();
+    return this.userService.updateList();
   }
 }

@@ -1,5 +1,7 @@
 import { NestFactory } from '@nestjs/core';
 import { AppModule } from './app.module';
+
+//for hot reload,but failed now
 declare const module: any;
 
 async function bootstrap() {
