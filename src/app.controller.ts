@@ -1,4 +1,4 @@
-import { Controller, Get ,Delete,Post,Put,Param,HttpCode, HttpStatus } from '@nestjs/common';
+import { Controller, Get ,Delete,Post,Put,Param,HttpCode, HttpStatus,Body } from '@nestjs/common';
 import { AppService } from './app.service';
 
 @Controller()
@@ -20,15 +20,19 @@ export class AppController {
     return this.appService.deleteList();
   }
 
-  @Post()
-  creatList():string{
-    return this.appService.createList();
+  @Post(':id')
+  creatList(
+    @Body('name')name:string,
+    @Body('description')description:string,
+    @Param('id')id:string
+    ){
+    console.log(HttpStatus)
+    return {id,name,description};
   }
 
   @Put()
-  @HttpCode(HttpStatus.NO_CONTENT)
+  // @HttpCode(HttpStatus.NO_CONTENT)
   updateList():string{
-    console.log(HttpStatus.NO_CONTENT)
     return this.appService.updateList();
   }
 }
