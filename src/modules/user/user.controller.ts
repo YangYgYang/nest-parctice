@@ -1,4 +1,4 @@
-import { Controller, Get ,Delete,Post,Put,Param,HttpCode, HttpStatus,Body } from '@nestjs/common';
+import { Controller, Get ,Delete,Post,Put,Param,HttpCode, HttpStatus,Body ,ParseIntPipe } from '@nestjs/common';
 import { UserService } from './user.service';
 import { CreateUserDto } from './dto/create-user.dto';
 
@@ -24,7 +24,7 @@ export class UserController {
   @Post(':id')
   creatList(
     @Body() dto:CreateUserDto,
-    @Param('id')id:string
+    @Param('id',ParseIntPipe)id:number
     ){
     // console.log(HttpStatus)
     return {id,dto};
