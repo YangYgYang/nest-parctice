@@ -1,4 +1,4 @@
-import { Controller, Get ,Delete,Post,Put,Param,HttpCode, HttpStatus,Body ,ParseIntPipe } from '@nestjs/common';
+import { Controller, Get ,Delete,Post,Put,Param,HttpCode, HttpStatus,Body ,ParseIntPipe ,UsePipes, ValidationPipe} from '@nestjs/common';
 import { UserService } from './user.service';
 import { CreateUserDto } from './dto/create-user.dto';
 
@@ -22,6 +22,7 @@ export class UserController {
   }
 
   @Post(':id')
+  @UsePipes(ValidationPipe)
   creatList(
     @Body() dto:CreateUserDto,
     @Param('id',ParseIntPipe)id:number
