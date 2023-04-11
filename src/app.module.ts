@@ -7,7 +7,6 @@ import { UserModule } from './modules/user/user.module';
 import { Users } from './modules/user/entities/user.entity';
 
 
-
 @Module({
   imports: [
     TypeOrmModule.forRoot({
