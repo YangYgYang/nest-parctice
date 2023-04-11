@@ -1,18 +1,36 @@
 import { Injectable } from '@nestjs/common';
+import { CreateUserDto } from './dto/create-user.dto';
+import { UpdateUserDto } from './dto/update-user.dto';
+import { InjectRepository } from '@nestjs/typeorm';
+import { Repository } from 'typeorm';
+import { Users } from './entities/user.entity';
 
 @Injectable()
 export class UserService {
-  getHello(): string {
-    return 'Hello World2!';
+
+  constructor(@InjectRepository(Users) private userRepository: Repository<Users>){}
+
+  create(createUserDto: CreateUserDto) {
+    return 'This action adds a new user';
   }
 
-  deleteList():string{
-    return '刪除清單'
+  findAll() {
+    return `This action returns all user`;
   }
-  createList():string{
-    return '新增清單'
+
+  findOne(id: number) {
+    return `This action returns a #${id} user`;
   }
-  updateList():string{
-    return '更新清單'
+
+  update(id: number, updateUserDto: UpdateUserDto) {
+    return `This action updates a #${id} user`;
+  }
+
+  remove(id: number) {
+    return `This action removes a #${id} user`;
+  }
+
+  getHello(){
+    return 'Hello World3!';
   }
 }
