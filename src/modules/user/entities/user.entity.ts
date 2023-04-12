@@ -3,7 +3,7 @@ import { Entity, OneToOne, JoinColumn,Column, CreateDateColumn, UpdateDateColumn
 // import { OrderEntity } from 'src/order/order.entity'
 
 @Entity()
-export class Users {
+export class User {
    @PrimaryGeneratedColumn()
    id: number
 
