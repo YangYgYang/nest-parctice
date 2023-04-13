@@ -15,7 +15,11 @@ export class UserController {
 
   @Post()
   @ApiOperation({ summary: '新增使用者' })
-  @ApiResponse({ status: 403, description: 'Forbidden.' })
+  @ApiResponse({ 
+    status: 200, 
+    description: '回傳新增的使用者.' ,
+    type:CreateUserDto
+  })
   create(
     @Body() createUserDto: CreateUserDto) {
     return this.userService.create(createUserDto);
