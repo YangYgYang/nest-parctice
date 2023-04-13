@@ -1,8 +1,10 @@
-import { Controller, Get, Post, Body, Patch, Param, Delete } from '@nestjs/common';
+import { Controller, Get, Post, Body, Patch, Param, Delete,BadRequestException, HttpStatus,Catch,UseFilters } from '@nestjs/common';
 import { UserService } from './user.service';
 import { CreateUserDto } from './dto/create-user.dto';
 import { UpdateUserDto } from './dto/update-user.dto';
 import { ApiBearerAuth, ApiOperation, ApiResponse, ApiTags,ApiProperty } from '@nestjs/swagger';
+// import { ExceptionsHandler } from '@nestjs/core/exceptions/exceptions-handler';
+import { HttpExceptionFilter } from '../../common/filters/http-exception.filters';
 
 @Controller('user')
 export class UserController {
@@ -22,6 +24,7 @@ export class UserController {
   })
   create(
     @Body() createUserDto: CreateUserDto) {
+    throw new BadRequestException('錯誤！')
     return this.userService.create(createUserDto);
   }
 
