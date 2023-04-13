@@ -2,6 +2,7 @@ import { Controller, Get, Post, Body, Patch, Param, Delete } from '@nestjs/commo
 import { UserService } from './user.service';
 import { CreateUserDto } from './dto/create-user.dto';
 import { UpdateUserDto } from './dto/update-user.dto';
+import { ApiBearerAuth, ApiOperation, ApiResponse, ApiTags,ApiProperty } from '@nestjs/swagger';
 
 @Controller('user')
 export class UserController {
@@ -13,6 +14,8 @@ export class UserController {
   // }
 
   @Post()
+  @ApiOperation({ summary: '新增使用者' })
+  @ApiResponse({ status: 403, description: 'Forbidden.' })
   create(
     @Body() createUserDto: CreateUserDto) {
     return this.userService.create(createUserDto);
