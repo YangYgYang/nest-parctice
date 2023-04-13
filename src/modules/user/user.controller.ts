@@ -6,44 +6,46 @@ import { ApiBearerAuth, ApiOperation, ApiResponse, ApiTags,ApiProperty } from '@
 // import { ExceptionsHandler } from '@nestjs/core/exceptions/exceptions-handler';
 import { HttpExceptionFilter } from '../../common/filters/http-exception.filters';
 
-@Controller('user')
+@Controller('/api/users')
 export class UserController {
   constructor(private readonly userService: UserService) {}
   
-  // @Get()
-  // getHello() {
-  //   return this.userService.findAll();
-  // }
+
+  @Get()
+  @ApiOperation({ summary: '取得所有使用者' })
+  findAll() {
+    return this.userService.findAll();
+  }
 
   @Post()
-  @ApiOperation({ summary: '新增使用者' })
+  @ApiOperation({ summary: '使用者註冊' })
   @ApiResponse({ 
     status: 200, 
     description: '回傳新增的使用者.' ,
     type:CreateUserDto
   })
   create(
-    @Body() createUserDto: CreateUserDto) {
-    throw new BadRequestException('錯誤！')
+    @Body() createUserDto: CreateUserDto
+    ) {
+    console.log(createUserDto)
+    // this.userService.findUser(@)
     return this.userService.create(createUserDto);
   }
 
-  @Get()
-  findAll() {
-    return this.userService.findAll();
-  }
-
   @Get(':id')
+  @ApiOperation({ summary: '取得單一使用者' })
   findOne(@Param('id') id: string) {
     return this.userService.findOne(+id);
   }
 
   @Patch(':id')
+  @ApiOperation({ summary: '修改單一使用者資料' })
   update(@Param('id') id: string, @Body() updateUserDto: UpdateUserDto) {
     return this.userService.update(+id, updateUserDto);
   }
 
   @Delete(':id')
+  @ApiOperation({ summary: '刪除單一使用者資料' })
   remove(@Param('id') id: string) {
     return this.userService.remove(+id);
   }

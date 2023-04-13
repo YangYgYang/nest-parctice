@@ -15,8 +15,10 @@ export class UserService {
   async create(createUserDto: CreateUserDto): Promise<any> {
     const user = new User();
     user.username = createUserDto.username;
+    user.email = createUserDto.email;
     user.password = createUserDto.password;
     user.role = createUserDto.role;
+
     await this.userRepository.save(user);
     return user;
   }
@@ -26,14 +28,15 @@ export class UserService {
   }
 
   findOne(id: number) {  
-    return `This action returns a #${id} user`;
+    return this.userRepository.findOne({where:{id}})
   }
 
   update(id: number, updateUserDto: UpdateUserDto) {
     return `This action updates a #${id} user`;
   }
 
-  remove(id: number) {
+  async remove(id: number) {
+    await this.userRepository.delete(id)
     return `This action removes a #${id} user`;
   }
 
