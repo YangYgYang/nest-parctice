@@ -10,19 +10,20 @@ import * as bcrypt from 'bcrypt';
 export class UserService {
 
   constructor(
+    //InjectRepository可以將建立的entity綁定到service中
     @InjectRepository(User) 
     private userRepository: Repository<User>){}
 
   async create(createUserDto: CreateUserDto): Promise<any> {
-    const user = new User();
-    const salt = await bcrypt.genSalt();
-    const hash = await bcrypt.hash(user.password, salt);
-    user.username = createUserDto.username;
-    user.email = createUserDto.email;
-    user.password = hash;
-    user.role = createUserDto.role;
-
-    await this.userRepository.save(user);
+    // const salt = await bcrypt.genSalt(10);
+    // const hash = await bcrypt.hash(user.password, salt);
+    const {username,email,password,role} = createUserDto
+    const user = await this.userRepository.create({
+      username,
+      email,
+      password,
+      role
+    });
     return user;
   }
 
