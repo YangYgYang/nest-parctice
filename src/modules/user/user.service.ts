@@ -14,6 +14,19 @@ export class UserService {
     @InjectRepository(User) 
     private userRepository: Repository<User>){}
 
+    async create(createUserDto: CreateUserDto): Promise<any> {
+      const {username,email,password,role} = createUserDto
+      const salt = await bcrypt.genSalt(10);
+      const hash = await bcrypt.hash(password, salt);
+      const user = await this.userRepository.save({
+        username,
+        email,
+        password:hash,
+        role
+      });
+      delete user.password;
+      return user;
+    }
   // 使用new user()的寫法
   // async create(createUserDto: CreateUserDto): Promise<any> {
   //   const user = new User();
@@ -23,23 +36,12 @@ export class UserService {
   //   user.role = createUserDto.role;
   //   const salt = await bcrypt.genSalt(10);
   //   const hash = await bcrypt.hash(user.password, salt);
-
   //   user.password = hash
   //   this.userRepository.save(user);
+  //   delete user.password;
   //   return user;
   //  }
-  async create(createUserDto: CreateUserDto): Promise<any> {
-    const {username,email,password,role} = createUserDto
-    const salt = await bcrypt.genSalt(10);
-    const hash = await bcrypt.hash(password, salt);
-    const user = await this.userRepository.save({
-      username,
-      email,
-      password:hash,
-      role
-    });
-    return user;
-  }
+
 
   async findAll() {
     return await this.userRepository.find();
