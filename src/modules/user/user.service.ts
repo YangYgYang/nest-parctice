@@ -14,14 +14,28 @@ export class UserService {
     @InjectRepository(User) 
     private userRepository: Repository<User>){}
 
+  // 使用new user()的寫法
+  // async create(createUserDto: CreateUserDto): Promise<any> {
+  //   const user = new User();
+  //   user.username = createUserDto.username;
+  //   user.email = createUserDto.email;
+  //   user.password = createUserDto.password;
+  //   user.role = createUserDto.role;
+  //   const salt = await bcrypt.genSalt(10);
+  //   const hash = await bcrypt.hash(user.password, salt);
+
+  //   user.password = hash
+  //   this.userRepository.save(user);
+  //   return user;
+  //  }
   async create(createUserDto: CreateUserDto): Promise<any> {
-    // const salt = await bcrypt.genSalt(10);
-    // const hash = await bcrypt.hash(user.password, salt);
     const {username,email,password,role} = createUserDto
+    const salt = await bcrypt.genSalt(10);
+    const hash = await bcrypt.hash(password, salt);
     const user = await this.userRepository.save({
       username,
       email,
-      password,
+      password:hash,
       role
     });
     return user;
