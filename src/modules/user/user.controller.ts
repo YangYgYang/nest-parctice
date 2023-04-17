@@ -30,13 +30,6 @@ export class UserController {
     return this.userService.create(createUserDto);
   }
 
-  @UseGuards(AuthGuard('local'))
-  @Post('login')
-  @ApiOperation({ summary: '使用者登入' })
-  async login(@Request() req) {
-    return req.user;
-  }
-
   @Get(':id')
   @ApiOperation({ summary: '取得單一使用者' })
   findOne(@Param('id') id: string) {
@@ -49,9 +42,9 @@ export class UserController {
     return this.userService.update(+id, updateUserDto);
   }
 
-  // @Delete(':id')
-  // @ApiOperation({ summary: '刪除單一使用者資料' })
-  // remove(@Param('id') id: string) {
-  //   return this.userService.remove(+id);
-  // }
+  @Delete(':id')
+  @ApiOperation({ summary: '刪除單一使用者資料' })
+  remove(@Param('id') id: string) {
+    return this.userService.remove(+id);
+  }
 }

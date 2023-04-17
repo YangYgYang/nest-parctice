@@ -28,7 +28,5 @@ import { AuthModule } from './modules/auth/auth.module';
       signOptions: { expiresIn: '1h' },
     })
   ],
-  providers: [AuthService,UserService],
-  controllers: [AuthController]
 })
 export class AppModule {}

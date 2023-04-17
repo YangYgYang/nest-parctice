@@ -9,15 +9,13 @@ import { UserService } from '../user/user.service';
 @Injectable()
 export class AuthService {
   constructor(
-    // @InjectRepository(User) 
-    // private userRepository: Repository<User>,
-    private usersService: UserService, 
+    @InjectRepository(User) 
+    private userRepository: Repository<User>,
     // private jwtService: JwtService
     ) {}
 
   async validateUser(email: string, password: string) {
-    const user = await this.usersService.findOne(1);
-    console.log('find回來結果',user)
+    const user = await this.userRepository.find();
     // const user = await this.usersService.findByEmail(email);
     // if (!user) {
     //   throw new UnauthorizedException();

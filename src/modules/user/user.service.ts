@@ -8,44 +8,25 @@ import * as bcrypt from 'bcrypt';
 
 @Injectable()
 export class UserService {
-  private readonly users = [
-    {
-      userId: 1,
-      username: 'john',
-      password: 'changeme',
-    },
-    {
-      userId: 2,
-      username: 'maria',
-      password: 'guess',
-    },
-  ];
 
-  // constructor(
-  //   // InjectRepository可以將建立的entity綁定到service中
-  //   @InjectRepository(User) 
-  //   private userRepository: Repository<User>){}
+  constructor(
+    // InjectRepository可以將建立的entity綁定到service中
+    @InjectRepository(User) 
+    private userRepository: Repository<User>){}
 
-    create(createUserDto: CreateUserDto) {
-      return this.users
+    async create(createUserDto: CreateUserDto): Promise<any> {
+      const {username,email,password,role} = createUserDto
+      const salt = await bcrypt.genSalt(10);
+      const hash = await bcrypt.hash(password, salt);
+      const user = await this.userRepository.save({
+        username,
+        email,
+        password:hash,
+        role
+      });
+      delete user.password;
+      return user;
     }
-    // // InjectRepository可以將建立的entity綁定到service中
-    // @InjectRepository(User) 
-    // private userRepository: Repository<User>){}
-
-    // async create(createUserDto: CreateUserDto): Promise<any> {
-    //   const {username,email,password,role} = createUserDto
-    //   const salt = await bcrypt.genSalt(10);
-    //   const hash = await bcrypt.hash(password, salt);
-    //   const user = await this.userRepository.save({
-    //     username,
-    //     email,
-    //     password:hash,
-    //     role
-    //   });
-    //   delete user.password;
-    //   return user;
-    // }
   // 使用new user()的寫法
   // async create(createUserDto: CreateUserDto): Promise<any> {
   //   const user = new User();
@@ -62,12 +43,9 @@ export class UserService {
   //  }
 
 
-  findAll() {
-    return this.users[0];
+  async findAll() {
+    return await this.userRepository.find();
   }
-  // async findAll() {
-  //   return await this.userRepository.find();
-  // }
 
   async login(user: any) {
     const payload = { username: user.username, sub: user.id, role:user.role };
@@ -78,20 +56,17 @@ export class UserService {
   }
 
   findOne(id: number) {  
-    return this.users.find(user => user.userId === id)
+    return this.userRepository.findOne({where:{id}})
   }
-  // findOne(id: number) {  
-  //   return this.userRepository.findOne({where:{id}})
-  // }
 
   update(id: number, updateUserDto: UpdateUserDto) {
     return `This action updates a #${id} user`;
   }
 
-  // async remove(id: number) {
-  //   await this.userRepository.delete(id)
-  //   return `This action removes a #${id} user`;
-  // }
+  async remove(id: number) {
+    await this.userRepository.delete(id)
+    return `This action removes a #${id} user`;
+  }
 
   getHello(){
     return 'Hello World3!';
