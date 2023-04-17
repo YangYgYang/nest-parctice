@@ -1,11 +1,14 @@
 import { Module } from '@nestjs/common';
-// import { UserModule } from 'src/modules/users/user.module';
 import { TypeOrmModule } from '@nestjs/typeorm';
-// import { listModule } from 'src/modules/user/user.module';
 import { ListModule } from './modules/list/list.module';
 import { UserModule } from './modules/user/user.module';
 import { User } from './modules/user/entities/user.entity';
-// import { AuthService } from './modules/auth/auth.service';
+import { AuthService } from './modules/auth/auth.service';
+import { UserService } from './modules/user/user.service';
+import { PassportModule } from '@nestjs/passport';
+import { JwtModule } from '@nestjs/jwt';
+import { AuthController } from './modules/auth/auth.controller';
+import { AuthModule } from './modules/auth/auth.module';
 
 
 @Module({
@@ -16,10 +19,16 @@ import { User } from './modules/user/entities/user.entity';
       entities: [User],
       synchronize: true
     }),
+    AuthModule,
     UserModule,
-    ListModule,
-    
+    ListModule,    
+    PassportModule,
+    JwtModule.register({
+      secret: process.env.JWT_SECRET,
+      signOptions: { expiresIn: '1h' },
+    })
   ],
-  // providers: [AuthService]
+  providers: [AuthService,UserService],
+  controllers: [AuthController]
 })
 export class AppModule {}
