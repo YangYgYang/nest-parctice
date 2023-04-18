@@ -1,23 +1,23 @@
-import { Strategy } from 'passport-local';
+import { Strategy ,IStrategyOptions} from 'passport-local';
 import { PassportStrategy } from '@nestjs/passport';
-import { InjectRepository } from '@nestjs/typeorm';
-import { Repository} from 'typeorm';
 import { Injectable, UnauthorizedException } from '@nestjs/common';
 import { AuthService } from '../auth.service';
-import { privateDecrypt } from 'crypto';
-import { User } from '../../user/entities/user.entity';
+
 
 @Injectable()
 export class LocalStrategy extends PassportStrategy(Strategy) {
    constructor(
     private authService: AuthService,
     ) {
-       super();
+       super(
+        //默認會是usernameField:'username'
+        {usernameField:'email',} as IStrategyOptions
+        );
     }
 
 //    async validate(username: string, password: string): Promise<any> {
-   async validate(username: string, password: string){
-       const foundUser = await this.authService.validateUser(username, password);
+   async validate(email:string,password: string){
+       const foundUser = await this.authService.login(email, password);
        if (!foundUser) {
            throw new UnauthorizedException();
        }

@@ -1,4 +1,4 @@
-import { Injectable, HttpException, HttpStatus } from '@nestjs/common';
+import { Injectable, HttpException, HttpStatus, BadRequestException } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Repository } from 'typeorm';
 import { User } from '../user/entities/user.entity';
@@ -14,20 +14,20 @@ export class AuthService {
     // private jwtService: JwtService
     ) {}
 
-  async validateUser(email: string, password: string) {
-    const user = await this.userRepository.find();
-    // const user = await this.usersService.findByEmail(email);
-    // if (!user) {
-    //   throw new UnauthorizedException();
-    // }
-    // const isMatch = await bcrypt.compare(password, user.password);
-    // if (!isMatch) {
-    //   throw new UnauthorizedException();
-    // }
+  async login(email: string, password: string) {
+    const user = await this.userRepository.findOne({where:{email}});
+    if (!user) {
+      throw new BadRequestException('email或密碼不正確');
+    }
+    const isMatch = await bcrypt.compare(password, user.password);
+    if (!isMatch) {
+      throw new BadRequestException('email或密碼不正確');
+    }
+    delete user.password
     return user;
   }
 
-//   async login(user: User) {
+//   async validateUser(user: User) {
 //     const payload = { email: user.email, sub: user.id };
 //     return {
 //       access_token: this.jwtService.sign(payload),
