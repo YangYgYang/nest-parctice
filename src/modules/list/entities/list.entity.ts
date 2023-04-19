@@ -1,5 +1,5 @@
 import { Entity, OneToOne, JoinColumn,Column, CreateDateColumn, UpdateDateColumn, PrimaryGeneratedColumn, OneToMany } from 'typeorm'
-// import { UserEntity } from 'src/modules/user/entities/user.entity'
+import { User } from '../../user/entities/user.entity'
 
 @Entity()
 export class Lists {
@@ -10,7 +10,7 @@ export class Lists {
    item: string
 
    @Column()
-   price: number
+   isDone: number
 
    @Column()
    description: string
@@ -21,7 +21,7 @@ export class Lists {
    @UpdateDateColumn()
    updtedAt : String
 
-//    @OneToMany(type => UserEntity, user => user.id)
-//    @JoinColumn()
-//    user: UserEntity[]
+   @OneToMany(type => User, user => user.id)
+   @JoinColumn()
+   user: User[]
 }

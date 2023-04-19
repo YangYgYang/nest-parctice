@@ -6,6 +6,7 @@ import { ApiBearerAuth, ApiOperation, ApiResponse, ApiTags,ApiProperty } from '@
 import { AuthGuard } from '@nestjs/passport'
 import { HttpExceptionFilter } from '../../common/filters/http-exception.filters';
 
+@ApiTags('User')
 @Controller('/api/users')
 export class UserController {
   constructor(private readonly userService: UserService) {}
