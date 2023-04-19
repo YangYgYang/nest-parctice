@@ -21,9 +21,10 @@ export class ListService {
   //   return `This action returns all list`;
   // }
 
-  // findOne(id: number) {
-  //   return `This action returns a #${id} list`;
-  // }
+  async findOne(id: number) {
+    const list = await this.listRepository.find({where:{id}})
+    return list;
+  }
 
   // update(id: number, updateListDto: UpdateListDto) {
   //   return `This action updates a #${id} list`;

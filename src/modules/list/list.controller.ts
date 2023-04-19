@@ -18,15 +18,14 @@ export class ListController {
   @Get()
   @ApiOperation({ summary: '取得單一使用者所有代辦項目' })
   findAll() {
-    return 1;
     // return this.listService.findAll();
   }
 
-  // @Get(':id')
-  // @ApiOperation({ summary: '取得單一代辦項目' })
-  // findOne(@Param('id') id: string) {
-  //   return this.listService.findOne(+id);
-  // }
+  @Get(':id')
+  @ApiOperation({ summary: '取得單一代辦項目' })
+  findOne(@Param('id') id: string) {
+    return this.listService.findOne(+id);
+  }
 
   // @Patch(':id')
   // @ApiOperation({ summary: '修改單一代辦項目' })
