@@ -1,4 +1,4 @@
-import { Entity, OneToOne, JoinColumn,Column, CreateDateColumn, UpdateDateColumn, PrimaryGeneratedColumn, OneToMany } from 'typeorm'
+import { Entity, JoinColumn,Column, CreateDateColumn, UpdateDateColumn, PrimaryGeneratedColumn, OneToMany, ManyToOne, } from 'typeorm'
 import { User } from '../../user/entities/user.entity'
 
 @Entity()
@@ -9,10 +9,10 @@ export class Lists {
    @Column()
    item: string
 
-   @Column()
-   isDone: number
+   @Column({ nullable: true })
+   isDone: boolean
 
-   @Column()
+   @Column({ nullable: true })
    description: string
 
    @CreateDateColumn()
@@ -21,7 +21,6 @@ export class Lists {
    @UpdateDateColumn()
    updtedAt : String
 
-   @OneToMany(type => User, user => user.id)
-   @JoinColumn()
-   user: User[]
+   @ManyToOne(() => User,user => user.list)
+   user: User
 }

@@ -17,7 +17,8 @@ import { AuthModule } from './modules/auth/auth.module';
       type :"sqlite",
       database: "database.db",
       entities: [User],
-      synchronize: true
+      synchronize: true,
+      autoLoadEntities:true
     }),
     AuthModule,
     UserModule,
