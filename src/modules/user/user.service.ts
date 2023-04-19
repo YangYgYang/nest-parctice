@@ -47,16 +47,11 @@ export class UserService {
     return await this.userRepository.find();
   }
 
-  async login(user: any) {
-    const payload = { username: user.username, sub: user.id, role:user.role };
-
-    return {
-        // access_token: this.jwt.sign(payload),
-    };
-  }
-
-  findOne(id: number) {  
-    return this.userRepository.findOne({where:{id}})
+ 
+  async findOne(id: number) {  
+    const user = await this.userRepository.findOne({where:{id}})
+    delete user.password
+    return user
   }
 
   update(id: number, updateUserDto: UpdateUserDto) {

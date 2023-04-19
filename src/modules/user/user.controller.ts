@@ -1,4 +1,4 @@
-import { Controller, Get, Post, Body, Patch, Param, Delete,BadRequestException, HttpStatus,Catch,UseFilters ,UseGuards,Request} from '@nestjs/common';
+import { Controller, Get, Post, Body, Patch, Param, Delete,BadRequestException, HttpStatus,Catch,UseFilters ,UseGuards,Request,Header,Req} from '@nestjs/common';
 import { UserService } from './user.service';
 import { CreateUserDto } from './dto/create-user.dto';
 import { UpdateUserDto } from './dto/update-user.dto';
@@ -30,9 +30,17 @@ export class UserController {
     return this.userService.create(createUserDto);
   }
 
+  @UseGuards(AuthGuard('jwt'))
   @Get(':id')
   @ApiOperation({ summary: '取得單一使用者' })
-  findOne(@Param('id') id: string) {
+  findOne(
+    @Param('id') id: string,
+    @Req() req: any
+    ) {
+      console.log(req.user.userId,id)
+      if(req.user.userId !== Number(id)){
+        throw new BadRequestException('您沒有權限造訪該網頁')
+      }
     return this.userService.findOne(+id);
   }
 
