@@ -29,11 +29,7 @@ export class AuthService {
 
     return {user,access_token};
   }
-
-  async validateUser(user: number) {
-    console.log(user)
-    return user
-  }
+  
   // async validateUser(user: User) {
   //   const payload = { email: user.email, sub: user.id };
   //   return {

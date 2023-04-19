@@ -17,9 +17,6 @@ export class JwtStrategy extends PassportStrategy(Strategy) {
 
 
  async validate(payload: any,context: ExecutionContext) {
-  // const req = context.switchToHttp().getRequest()
-  
-  // console.log({ userId: payload.sub, email: payload.email },context.switchToHttp)
    return { userId: payload.sub, email: payload.email };
  }
 

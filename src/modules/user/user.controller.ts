@@ -37,7 +37,6 @@ export class UserController {
     @Param('id') id: string,
     @Req() req: any
     ) {
-      console.log(req.user.userId,id)
       if(req.user.userId !== Number(id)){
         throw new BadRequestException('您沒有權限造訪該網頁')
       }
