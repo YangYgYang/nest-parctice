@@ -1,8 +1,8 @@
 import { CreateListDto } from './dto/create-list.dto';
 import { UpdateListDto } from './dto/update-list.dto';
-import { Injectable} from '@nestjs/common';
-import { Repository} from 'typeorm'
-import { InjectRepository } from '@nestjs/typeorm'
+import { Injectable,BadRequestException} from '@nestjs/common';
+import { Repository,} from 'typeorm'
+import { InjectRepository, } from '@nestjs/typeorm'
 import { Lists } from './entities/list.entity';
 import { User } from '../user/entities/user.entity';
 
@@ -26,13 +26,22 @@ export class ListService {
   }
 
   async findOne(id: number) {
-    const list = await this.listRepository.find({where:{id}})
+    const list = await this.listRepository.find({where:{id}});
     return list;
   }
 
-  // update(id: number, updateListDto: UpdateListDto) {
-  //   return `This action updates a #${id} list`;
-  // }
+  async update(updateListDto: UpdateListDto) {
+    let list = await this.listRepository.findOne({
+      relations: {
+        user: true,
+    },
+      where:{id:updateListDto.id}
+    })
+    if(updateListDto.userId !== list.user.id){
+      throw new BadRequestException('您無權修改此項目！')
+    }
+    return this.listRepository.save(updateListDto);
+  }
 
   async remove(id: number) {
     await this.listRepository.delete(id)

@@ -36,11 +36,18 @@ export class ListController {
     return this.listService.findOne(+id);
   }
 
-  // @Patch(':id')
-  // @ApiOperation({ summary: '修改單一代辦項目' })
-  // update(@Param('id') id: string, @Body() updateListDto: UpdateListDto) {
-  //   return this.listService.update(+id, updateListDto);
-  // }
+  @UseGuards(AuthGuard('jwt'))
+  @Patch(':id')
+  @ApiOperation({ summary: '修改單一代辦項目' })
+  update(
+    @Param('id') id: string, 
+    @Body() updateListDto: any,
+    // @Body() updateListDto: UpdateListDto,
+    @Req() req: any) {
+    updateListDto.userId = req.user.userId
+    updateListDto.id = Number(id)
+    return this.listService.update(updateListDto);
+  }
 
   @Delete(':id')
   @ApiOperation({ summary: '刪除單一代辦項目' })

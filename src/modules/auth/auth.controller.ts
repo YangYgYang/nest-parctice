@@ -22,7 +22,6 @@ export class AuthController {
     type:UpdateUserDto
   })
   async login(@Req() req) {
-    console.log(req)
     return req.user;
   }
 

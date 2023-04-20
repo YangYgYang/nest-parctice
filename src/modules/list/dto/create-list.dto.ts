@@ -20,5 +20,5 @@ export class CreateListDto {
 
   @IsNumber()
   @ApiProperty()
-  public readonly userId: number;
+  public userId: number;
 }
