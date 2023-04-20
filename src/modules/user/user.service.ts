@@ -1,4 +1,4 @@
-import { Injectable } from '@nestjs/common';
+import { Injectable,BadRequestException } from '@nestjs/common';
 import { CreateUserDto } from './dto/create-user.dto';
 import { UpdateUserDto } from './dto/update-user.dto';
 import { InjectRepository } from '@nestjs/typeorm';
@@ -16,6 +16,10 @@ export class UserService {
 
     async create(createUserDto: CreateUserDto): Promise<any> {
       const {username,email,password,role} = createUserDto
+      const checkEmail = await this.userRepository.find({where:{email}})
+      if(checkEmail){
+        throw new BadRequestException('此 Email 已註冊過！')
+      }
       const salt = await bcrypt.genSalt(10);
       const hash = await bcrypt.hash(password, salt);
       const user = await this.userRepository.save({
