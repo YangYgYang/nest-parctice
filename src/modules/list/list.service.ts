@@ -19,10 +19,8 @@ export class ListService {
   }
 
   async findAll(id:number) {
-    console.log(id)
     const lists = await this.listRepository.find({
-      relations: {userId:true},
-      // where: {userId:true},
+      where: {user:{id} },
   })
     return lists;
   }

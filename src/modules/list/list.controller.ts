@@ -17,7 +17,7 @@ export class ListController {
   create(
     @Body() createListDto: CreateListDto| any,
     @Req() req: any) {
-      createListDto.userId = req.user.userId
+    createListDto.user = req.user.userId
     return this.listService.create(createListDto);
   }
 
@@ -27,7 +27,6 @@ export class ListController {
   findAll(
     @Req() req: any
   ) {
-    console.log('list controller裡面的req',req.user.userId)
     return this.listService.findAll(req.user.userId);
   }
 

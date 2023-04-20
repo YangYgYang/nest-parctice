@@ -22,5 +22,5 @@ export class Lists {
    updtedAt : String
 
    @ManyToOne(() => User,user => user.list)
-   userId: User
+   user: User
 }

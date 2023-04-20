@@ -18,7 +18,7 @@ export class CreateListDto {
   @ApiProperty()
   public readonly description: string;
 
-  // @IsNumber()
-  // @ApiProperty()
-  // public readonly userId: number;
+  @IsNumber()
+  @ApiProperty()
+  public readonly userId: number;
 }
