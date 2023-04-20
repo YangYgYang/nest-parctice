@@ -1,5 +1,5 @@
 import { PipeTransform, Injectable, ArgumentMetadata, BadRequestException } from '@nestjs/common'
-import { IsBoolean, IsOptional, IsString, MaxLength, IsEmail} from 'class-validator'
+import { IsBoolean, IsOptional, IsString, MaxLength,IsNumber} from 'class-validator'
 import { ApiProperty } from '@nestjs/swagger'
 
 export class CreateListDto {
@@ -17,4 +17,8 @@ export class CreateListDto {
   @IsString()
   @ApiProperty()
   public readonly description: string;
+
+  // @IsNumber()
+  // @ApiProperty()
+  // public readonly userId: number;
 }

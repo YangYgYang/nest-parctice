@@ -4,6 +4,7 @@ import { Injectable} from '@nestjs/common';
 import { Repository} from 'typeorm'
 import { InjectRepository } from '@nestjs/typeorm'
 import { Lists } from './entities/list.entity';
+import { User } from '../user/entities/user.entity';
 
 @Injectable()
 export class ListService {
@@ -17,9 +18,14 @@ export class ListService {
     return list;
   }
 
-  // findAll() {
-  //   return `This action returns all list`;
-  // }
+  async findAll(id:number) {
+    console.log(id)
+    const lists = await this.listRepository.find({
+      relations: {userId:true},
+      // where: {userId:true},
+  })
+    return lists;
+  }
 
   async findOne(id: number) {
     const list = await this.listRepository.find({where:{id}})

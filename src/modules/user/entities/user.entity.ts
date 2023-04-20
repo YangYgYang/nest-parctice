@@ -24,6 +24,6 @@ export class User {
    @UpdateDateColumn()
    updtedAt : String
 
-   @OneToMany(() => Lists, list => list.user)
+   @OneToMany(() => Lists, list => list.userId)
    list: Lists[]
 }
