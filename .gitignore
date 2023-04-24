@@ -36,4 +36,4 @@ lerna-debug.log*
 
 constants.ts
 .env
-database.db
+.db
