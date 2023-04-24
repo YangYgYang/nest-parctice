@@ -7,17 +7,11 @@ import { PassportModule } from '@nestjs/passport';
 import { JwtModule } from '@nestjs/jwt';
 import { ConfigModule } from '@nestjs/config';
 import { AuthModule } from './modules/auth/auth.module';
+import { TypeOrmConfigService } from './database/config';
 
 @Module({
   imports: [
-    TypeOrmModule.forRoot({
-      type: 'sqlite',
-      database: 'database.db',
-      entities: [User],
-      synchronize: true,
-      autoLoadEntities: true,
-      logging: 'all',
-    }),
+    TypeOrmModule.forRootAsync({ useClass: TypeOrmConfigService }),
     AuthModule,
     UserModule,
     ListModule,
