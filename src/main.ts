@@ -1,8 +1,8 @@
 import { NestFactory } from '@nestjs/core';
 import { AppModule } from './app.module';
-import { ValidationPipe } from '@nestjs/common'
-import { SwaggerModule, DocumentBuilder  } from '@nestjs/swagger'
-import { HttpExceptionFilter  } from 'src/common/filters/http-exception.filters'
+import { ValidationPipe } from '@nestjs/common';
+import { SwaggerModule, DocumentBuilder } from '@nestjs/swagger';
+import { HttpExceptionFilter } from 'src/common/filters/http-exception.filters';
 
 //for hot reload,but failed now
 declare const module: any;
@@ -12,16 +12,16 @@ async function bootstrap() {
   app.useGlobalPipes(new ValidationPipe());
 
   const config = new DocumentBuilder()
-  .setTitle('NestTest')
-  .setDescription('The NestTest API description')
-  .setVersion('1.0')
-  .addTag('test')
-  .build();
+    .setTitle('NestTest')
+    .setDescription('The NestTest API description')
+    .setVersion('1.0')
+    .addTag('test')
+    .build();
 
   const document = SwaggerModule.createDocument(app, config);
   SwaggerModule.setup('api/doc', app, document);
 
-  app.useGlobalFilters(new HttpExceptionFilter())
+  app.useGlobalFilters(new HttpExceptionFilter());
   await app.listen(3000);
 
   if (module.hot) {

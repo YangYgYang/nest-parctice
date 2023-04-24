@@ -1,4 +1,4 @@
-import { Injectable,BadRequestException } from '@nestjs/common';
+import { Injectable, BadRequestException } from '@nestjs/common';
 import { CreateUserDto } from './dto/create-user.dto';
 import { UpdateUserDto } from './dto/update-user.dto';
 import { InjectRepository } from '@nestjs/typeorm';
@@ -8,29 +8,29 @@ import * as bcrypt from 'bcrypt';
 
 @Injectable()
 export class UserService {
-
   constructor(
     // InjectRepository可以將建立的entity綁定到service中
-    @InjectRepository(User) 
-    private userRepository: Repository<User>){}
+    @InjectRepository(User)
+    private userRepository: Repository<User>,
+  ) {}
 
-    async create(createUserDto: CreateUserDto): Promise<any> {
-      const {username,email,password,role} = createUserDto
-      const checkEmail = await this.userRepository.find({where:{email}})
-      if(checkEmail){
-        throw new BadRequestException('此 Email 已註冊過！')
-      }
-      const salt = await bcrypt.genSalt(10);
-      const hash = await bcrypt.hash(password, salt);
-      const user = await this.userRepository.save({
-        username,
-        email,
-        password:hash,
-        role
-      });
-      delete user.password;
-      return user;
+  async create(createUserDto: CreateUserDto): Promise<any> {
+    const { username, email, password, role } = createUserDto;
+    const checkEmail = await this.userRepository.findOne({ where: { email } });
+    if (checkEmail) {
+      throw new BadRequestException('此 Email 已註冊過！');
     }
+    const salt = await bcrypt.genSalt(10);
+    const hash = await bcrypt.hash(password, salt);
+    const user = await this.userRepository.save({
+      username,
+      email,
+      password: hash,
+      role,
+    });
+    delete user.password;
+    return user;
+  }
   // 使用new user()的寫法
   // async create(createUserDto: CreateUserDto): Promise<any> {
   //   const user = new User();
@@ -46,28 +46,26 @@ export class UserService {
   //   return user;
   //  }
 
-
   async findAll() {
     return await this.userRepository.find();
   }
 
- 
-  async findOne(id: number) {  
-    const user = await this.userRepository.findOne({where:{id}})
-    delete user.password
-    return user
+  async findOne(id: number) {
+    const user = await this.userRepository.findOne({ where: { id } });
+    delete user.password;
+    return user;
   }
 
   update(id: number, updateUserDto: UpdateUserDto) {
-    return `This action updates a #${id} user`;
+    return `This action updates a #${id} user update ${updateUserDto}`;
   }
 
   async remove(id: number) {
-    await this.userRepository.delete(id)
+    await this.userRepository.delete(id);
     return `This action removes a #${id} user`;
   }
 
-  getHello(){
+  getHello() {
     return 'Hello World3!';
   }
 }

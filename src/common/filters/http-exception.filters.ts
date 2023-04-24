@@ -1,4 +1,9 @@
-import { ArgumentsHost, Catch, ExceptionFilter, HttpException } from '@nestjs/common';
+import {
+  ArgumentsHost,
+  Catch,
+  ExceptionFilter,
+  HttpException,
+} from '@nestjs/common';
 import { Response } from 'express';
 
 @Catch(HttpException)
@@ -16,9 +21,9 @@ export class HttpExceptionFilter implements ExceptionFilter<HttpException> {
     const timestamp = new Date().toISOString();
 
     const responseObject = {
-        code: status,
-        message,
-        timestamp
+      code: status,
+      message,
+      timestamp,
     };
     response.status(status).json(responseObject);
   }

@@ -14,8 +14,8 @@ export class ListService {
 
   async create(createListDto: CreateListDto) {
     const list = this.listRepository.create(createListDto)
-    await this.listRepository.save(list)
-    return list;
+    // await this.listRepository.save(list)
+    return await this.listRepository.save(list);
   }
 
   async findAll(id:number) {
@@ -26,7 +26,7 @@ export class ListService {
   }
 
   async findOne(id: number) {
-    const list = await this.listRepository.find({where:{id}});
+    const list = await this.listRepository.findOne({where:{id}});
     return list;
   }
 
