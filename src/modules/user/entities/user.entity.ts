@@ -8,7 +8,7 @@ import {
 } from 'typeorm';
 import { Lists } from '../../list/entities/list.entity';
 
-@Entity()
+@Entity({ name: 'user' })
 export class User {
   @PrimaryGeneratedColumn()
   id: number;
@@ -29,7 +29,7 @@ export class User {
   createdAt: string;
 
   @UpdateDateColumn()
-  updtedAt: string;
+  updatedAt: string;
 
   @OneToMany(() => Lists, (list) => list.user)
   list: Lists[];

@@ -7,11 +7,13 @@ import { PassportModule } from '@nestjs/passport';
 import { JwtModule } from '@nestjs/jwt';
 import { ConfigModule } from '@nestjs/config';
 import { AuthModule } from './modules/auth/auth.module';
-import { TypeOrmConfigService } from './database/config';
+// import { typeOrmConfig } from './database/config';
+import { getConfig } from './database/config';
 
 @Module({
   imports: [
-    TypeOrmModule.forRootAsync({ useClass: TypeOrmConfigService }),
+    TypeOrmModule.forRoot(getConfig()),
+    // TypeOrmModule.forRoot({ ...typeOrmConfig, autoLoadEntities: true }),
     AuthModule,
     UserModule,
     ListModule,

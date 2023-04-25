@@ -3,6 +3,10 @@ import { AppModule } from './app.module';
 import { ValidationPipe } from '@nestjs/common';
 import { SwaggerModule, DocumentBuilder } from '@nestjs/swagger';
 import { HttpExceptionFilter } from 'src/common/filters/http-exception.filters';
+import 'reflect-metadata';
+import { DataSource } from 'typeorm';
+import { User } from 'src/modules/user/entities/user.entity';
+import { Lists } from 'src/modules/List/entities/list.entity';
 
 //for hot reload,but failed now
 declare const module: any;

@@ -1,43 +1,40 @@
-import { Injectable } from '@nestjs/common';
-import { TypeOrmOptionsFactory, TypeOrmModuleOptions } from '@nestjs/typeorm';
+import { TypeOrmModuleOptions } from '@nestjs/typeorm';
+import { DataSourceOptions } from 'typeorm';
+import { User } from 'src/modules/user/entities/user.entity';
+import { Lists } from 'src/modules/list/entities/list.entity';
 
-// const AppDataSource = new DataSource({
+// export const typeOrmConfig: TypeOrmModuleOptions = {
 //   type: 'postgres',
 //   host: 'localhost',
 //   port: 5432,
 //   username: 'postgres',
 //   password: 'docker',
-//   database: 'test',
-//   // logging:"query"
-// });
-@Injectable()
-export class TypeOrmConfigService implements TypeOrmOptionsFactory {
-  public createTypeOrmOptions(): TypeOrmModuleOptions {
-    return {
-      type: 'postgres',
-      host: 'localhost',
-      port: 5432,
-      username: 'postgres',
-      password: 'docker',
-      database: 'postgres',
-      entities: ['dist/**/*.entity.{ts,js}'],
-      migrations: ['dist/migrations/*.{ts,js}'],
-      migrationsTableName: 'typeorm_migrations',
-      logger: 'file',
+//   database: 'postgres',
+//   entities: [User, Lists],
+//   migrations: ['src/database/migrations/*.js'],
+//   // migrationsTableName: 'typeorm_migrations',
+//   synchronize: true,
+//   logging: 'all',
+// };
 
-      // cli: {
-      //   migrationsDir: 'src/migration',
-      // },
-
-      // ssl: this.isProduction(),
-    };
-  }
+export function getConfig() {
+  return {
+    type: 'postgres',
+    host: 'localhost',
+    port: 5432,
+    username: 'postgres',
+    password: 'docker',
+    database: 'postgres',
+    synchronize: false,
+    entities: [User, Lists],
+    migrations: ['dist/src/database/migrations/*.js'],
+    // migrations: ['src/database/migrations/*.js'],
+    // subscribers: ['src/subscriber/**/*.ts'],
+    logging: 'all',
+    // cli: {
+    //   entitiesDir: 'src/entity',
+    //   migrationsDir: 'database/migrations',
+    //   subscribersDir: 'src/subscriber',
+    // },
+  } as DataSourceOptions;
 }
-
-// AppDataSource.initialize()
-//   .then(() => {
-//     console.log('Data Source has been initialized!');
-//   })
-//   .catch((err) => {
-//     console.error('Error during Data Source initialization', err);
-//   });

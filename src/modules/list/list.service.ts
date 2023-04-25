@@ -1,50 +1,51 @@
 import { CreateListDto } from './dto/create-list.dto';
 import { UpdateListDto } from './dto/update-list.dto';
-import { Injectable,BadRequestException} from '@nestjs/common';
-import { Repository,} from 'typeorm'
-import { InjectRepository, } from '@nestjs/typeorm'
+import { Injectable, BadRequestException } from '@nestjs/common';
+import { Repository } from 'typeorm';
+import { InjectRepository, InjectDataSource } from '@nestjs/typeorm';
 import { Lists } from './entities/list.entity';
 import { User } from '../user/entities/user.entity';
 
 @Injectable()
 export class ListService {
   constructor(
-    @InjectRepository(Lists) 
-    private listRepository: Repository<Lists>){}
+    @InjectRepository(Lists)
+    private listRepository: Repository<Lists>,
+  ) {}
 
   async create(createListDto: CreateListDto) {
-    const list = this.listRepository.create(createListDto)
+    const list = this.listRepository.create(createListDto);
     // await this.listRepository.save(list)
     return await this.listRepository.save(list);
   }
 
-  async findAll(id:number) {
+  async findAll(id: number) {
     const lists = await this.listRepository.find({
-      where: {user:{id} },
-  })
+      where: { user: { id } },
+    });
     return lists;
   }
 
   async findOne(id: number) {
-    const list = await this.listRepository.findOne({where:{id}});
+    const list = await this.listRepository.findOne({ where: { id } });
     return list;
   }
 
   async update(updateListDto: UpdateListDto) {
-    let list = await this.listRepository.findOne({
+    const list = await this.listRepository.findOne({
       relations: {
         user: true,
-    },
-      where:{id:updateListDto.id}
-    })
-    if(updateListDto.userId !== list.user.id){
-      throw new BadRequestException('您無權修改此項目！')
+      },
+      where: { id: updateListDto.id },
+    });
+    if (updateListDto.userId !== list.user.id) {
+      throw new BadRequestException('您無權修改此項目！');
     }
     return this.listRepository.save(updateListDto);
   }
 
   async remove(id: number) {
-    await this.listRepository.delete(id)
+    await this.listRepository.delete(id);
     return `This action removes a #${id} list`;
   }
 }
