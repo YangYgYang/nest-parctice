@@ -15,7 +15,7 @@ import { ApiOperation, ApiTags } from '@nestjs/swagger';
 import { AuthGuard } from '@nestjs/passport';
 
 @ApiTags('List')
-@Controller('/api/list')
+@Controller('/list')
 export class ListController {
   constructor(private readonly listService: ListService) {}
 

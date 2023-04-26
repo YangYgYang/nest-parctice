@@ -1,10 +1,9 @@
 import { CreateListDto } from './dto/create-list.dto';
 import { UpdateListDto } from './dto/update-list.dto';
-import { Injectable, BadRequestException } from '@nestjs/common';
+import { Injectable, ForbiddenException } from '@nestjs/common';
 import { Repository } from 'typeorm';
-import { InjectRepository, InjectDataSource } from '@nestjs/typeorm';
+import { InjectRepository } from '@nestjs/typeorm';
 import { Lists } from './entities/list.entity';
-import { User } from '../user/entities/user.entity';
 
 @Injectable()
 export class ListService {
@@ -39,7 +38,7 @@ export class ListService {
       where: { id: updateListDto.id },
     });
     if (updateListDto.userId !== list.user.id) {
-      throw new BadRequestException('您無權修改此項目！');
+      throw new ForbiddenException('您無權修改此項目！');
     }
     return this.listRepository.save(updateListDto);
   }

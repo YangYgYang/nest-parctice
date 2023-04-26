@@ -30,7 +30,7 @@ export function getConfig() {
     migrations: ['dist/src/database/migrations/*.js'],
     // migrations: ['src/database/migrations/*.js'],
     // subscribers: ['src/subscriber/**/*.ts'],
-    logging: 'all',
+    // logging: 'all',
     // cli: {
     //   entitiesDir: 'src/entity',
     //   migrationsDir: 'database/migrations',

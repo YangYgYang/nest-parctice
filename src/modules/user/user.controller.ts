@@ -7,29 +7,17 @@ import {
   Param,
   Delete,
   BadRequestException,
-  HttpStatus,
-  Catch,
-  UseFilters,
   UseGuards,
-  Request,
-  Header,
   Req,
 } from '@nestjs/common';
 import { UserService } from './user.service';
 import { CreateUserDto } from './dto/create-user.dto';
 import { UpdateUserDto } from './dto/update-user.dto';
-import {
-  ApiBearerAuth,
-  ApiOperation,
-  ApiResponse,
-  ApiTags,
-  ApiProperty,
-} from '@nestjs/swagger';
+import { ApiOperation, ApiResponse, ApiTags } from '@nestjs/swagger';
 import { AuthGuard } from '@nestjs/passport';
-import { HttpExceptionFilter } from '../../common/filters/http-exception.filters';
 
 @ApiTags('User')
-@Controller('/api/users')
+@Controller('/users')
 export class UserController {
   constructor(private readonly userService: UserService) {}
 
