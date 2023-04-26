@@ -26,7 +26,7 @@ export class Lists {
   createdAt: string;
 
   @UpdateDateColumn()
-  updtedAt: string;
+  updatedAt: string;
 
   @ManyToOne(() => User, (user) => user.list)
   user: User;
