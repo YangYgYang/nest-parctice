@@ -6,6 +6,7 @@ import { PassportModule } from '@nestjs/passport';
 import { AuthModule } from './modules/auth/auth.module';
 // import { typeOrmConfig } from './database/config';
 import { getConfig } from './database/config';
+import { ConfigModule } from '@nestjs/config';
 
 @Module({
   imports: [
@@ -15,6 +16,10 @@ import { getConfig } from './database/config';
     UserModule,
     ListModule,
     PassportModule,
+    ConfigModule.forRoot({
+      isGlobal: true,
+      envFilePath: '.env',
+    }),
   ],
 })
 export class AppModule {}

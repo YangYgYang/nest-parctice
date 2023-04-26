@@ -6,7 +6,7 @@ import { UpdateUserDto } from '../user/dto/update-user.dto';
 import { AuthUserDto } from '../auth/dto/auth-user.dto';
 
 @ApiTags('Auth')
-@Controller('api/auth')
+@Controller('auth')
 export class AuthController {
   constructor(private readonly authService: AuthService) {}
 
