@@ -7,17 +7,17 @@ import { AuthService } from '../auth/auth.service';
 import { AuthController } from '../auth/auth.controller';
 import { TypeOrmModule } from '@nestjs/typeorm';
 import { User } from '../user/entities/user.entity';
-import { ConfigModule } from '@nestjs/config';
+import * as dotenv from 'dotenv';
+dotenv.config();
 
 @Module({
   imports: [
     TypeOrmModule.forFeature([User]),
     PassportModule,
     JwtModule.register({
-      secret: 'process.env.secret',
-      signOptions: { expiresIn: '60m' },
+      secret: process.env.JWT_SECRET,
+      signOptions: { expiresIn: '24h' },
     }),
-    ConfigModule.forRoot(),
   ],
   controllers: [AuthController],
   providers: [AuthService, LocalStrategy, JwtStrategy],

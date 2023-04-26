@@ -7,11 +7,14 @@ import 'reflect-metadata';
 import { DataSource } from 'typeorm';
 import { User } from 'src/modules/user/entities/user.entity';
 import { Lists } from 'src/modules/List/entities/list.entity';
+import * as dotenv from 'dotenv';
 
 //for hot reload,but failed now
 declare const module: any;
 
 async function bootstrap() {
+  console.log('bootstrap');
+  dotenv.config();
   const app = await NestFactory.create(AppModule);
   app.useGlobalPipes(new ValidationPipe());
 
