@@ -10,7 +10,7 @@ declare const module: any;
 
 async function bootstrap() {
   const app = await NestFactory.create(AppModule);
-  app.setGlobalPrefix('api');
+  app.setGlobalPrefix('');
 
   //////api document config swagger
   const config = new DocumentBuilder()

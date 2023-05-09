@@ -13,17 +13,31 @@ import { ListService } from './list.service';
 import { CreateListDto } from './dto/create-list.dto';
 import { ApiOperation, ApiTags } from '@nestjs/swagger';
 import { AuthGuard } from '@nestjs/passport';
+import { LoggerProducer } from '../logger/queues/logger.producer';
 
 @ApiTags('List')
 @Controller('/list')
 export class ListController {
-  constructor(private readonly listService: ListService) {}
+  constructor(
+    private readonly listService: ListService,
+    private loggerProducer: LoggerProducer,
+  ) {}
 
   @UseGuards(AuthGuard('jwt'))
   @Post()
   @ApiOperation({ summary: '新增代辦項目' })
   create(@Body() createListDto: CreateListDto | any, @Req() req: any) {
     createListDto.user = req.user.userId;
+    const log: Log = {
+      level: 'info',
+      method: 'Post',
+      url: '/list',
+      request_message: JSON.stringify(createListDto),
+      response_code: 200,
+      response_message: JSON.stringify({ id: createListDto.user.id }),
+    };
+    console.log(log);
+    this.loggerProducer.createLog(log);
     return this.listService.create(createListDto);
   }
 
